@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>WavesFit · live spectroscopy</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/"
+        >∿ <strong>WavesFit</strong><span>LIVE SPECTROSCOPY</span></a
+      >
+      <div>
+        <span id="connection" class="pill">Connecting</span
+        ><button id="pause">Pause acquisition</button>
+      </div>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">ACQUIRE · FIT · UNDERSTAND</p>
+          <h1>Your spectrum, as it happens.</h1>
+          <p>
+            Independent numerical fitting. All data and computation stay on this
+            computer.
+          </p>
+        </div>
+        <div class="version">
+          v<span id="version">0.1.0</span><br />Python &amp; Go
+        </div>
+      </section>
+      <div class="metrics">
+        <div><label>SCAN</label><strong id="scan">Waiting</strong></div>
+        <div><label>FIT STATUS</label><strong id="status">—</strong></div>
+        <div><label>FIT TIME</label><strong id="timing">—</strong></div>
+        <div><label>WAITING SCANS</label><strong id="backlog">0</strong></div>
+      </div>
+      <div id="message" role="status"></div>
+      <div id="error" role="alert" hidden></div>
+      <div class="workspace">
+        <section class="plots">
+          <article class="card">
+            <div class="card-title">
+              <h2>Spectrum &amp; fit</h2>
+              <span id="spectrum-note">Simulated acquisition</span>
+            </div>
+            <canvas
+              id="spectrum"
+              aria-label="Incoming spectrum and fitted components"
+            ></canvas>
+            <div class="legend">
+              <span class="dot raw">Measured</span
+              ><span class="dot fit">Fit</span
+              ><span class="dot bg">Background</span
+              ><span class="dot component">Components</span
+              ><span>Scroll to zoom · double-click to reset</span>
+            </div>
+            <div id="hover">Move over a plot to inspect coordinates.</div>
+          </article>
+          <article class="card compact">
+            <div class="card-title">
+              <h2>Residuals</h2>
+              <span>measured − fitted</span>
+            </div>
+            <canvas id="residuals" aria-label="Fit residuals"></canvas>
+          </article>
+          <article class="card compact">
+            <div class="card-title">
+              <h2>Parameter trend</h2>
+              <select
+                id="trend-parameter"
+                aria-label="Trend parameter"
+              ></select>
+            </div>
+            <canvas
+              id="trend"
+              aria-label="Parameter trend across successful fit updates"
+            ></canvas>
+          </article>
+          <article class="card">
+            <div class="card-title">
+              <h2>Latest fit parameters</h2>
+              <span id="result-note"></span>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Estimate</th>
+                    <th>Standard error</th>
+                  </tr>
+                </thead>
+                <tbody id="results"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+        <aside>
+          <section class="card">
+            <h2>Fitting setup</h2>
+            <p class="hint">
+              Choose a model, set initial values, then apply. Early scan
+              estimates are provisional.
+            </p>
+            <div class="form-row">
+              <label
+                >Profile<select id="kind">
+                  <option value="voigt">Voigt</option>
+                  <option value="voigt_doublet">Voigt doublet</option>
+                  <option value="ds">Doniach–Šunjić</option>
+                  <option value="ds_doublet">Doniach–Šunjić doublet</option>
+                  <option value="asymmetric_gaussian">
+                    Asymmetric Gaussian
+                  </option>
+                  <option value="gaussian_step">Gaussian step</option>
+                  <option value="nexafs">NEXAFS peaks + steps</option>
+                </select></label
+              ><label
+                >Peaks<input
+                  id="count"
+                  type="number"
+                  min="1"
+                  max="20"
+                  value="2" /></label
+              ><label
+                >Steps<input
+                  id="steps"
+                  type="number"
+                  min="0"
+                  max="20"
+                  value="1"
+              /></label>
+            </div>
+            <div class="actions">
+              <button id="build-model">Set model</button
+              ><button id="suggest">Suggest initial values</button>
+            </div>
+            <div class="table-scroll parameter-scroll">
+              <table class="parameters">
+                <thead>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Initial</th>
+                    <th>Min</th>
+                    <th>Max</th>
+                    <th>Fix</th>
+                  </tr>
+                </thead>
+                <tbody id="parameters"></tbody>
+              </table>
+            </div>
+            <div class="form-row">
+              <label
+                >Background<select id="background">
+                  <option>none</option>
+                  <option>linear</option>
+                  <option>exponential</option>
+                  <option>shirley</option>
+                  <option>tougaard</option>
+                </select></label
+              ><label
+                >Fit budget (s)<input
+                  id="budget"
+                  type="number"
+                  min="0.01"
+                  step=".1"
+                  value="2"
+              /></label>
+            </div>
+            <div class="form-row">
+              <label
+                >Interval low<input
+                  id="low"
+                  type="number"
+                  step="any"
+                  placeholder="Full range" /></label
+              ><label
+                >Interval high<input
+                  id="high"
+                  type="number"
+                  step="any"
+                  placeholder="Full range"
+              /></label>
+            </div>
+          </section>
+          <section class="card">
+            <h2>Acquisition source</h2>
+            <label
+              >Mode<select id="source-mode">
+                <option value="demo">
+                  Simulator · growing + complete scans
+                </option>
+                <option value="tail">Growing table file</option>
+                <option value="directory">Finalized spectra directory</option>
+              </select></label
+            >
+            <label
+              >File or directory path<input
+                id="path"
+                placeholder="/path/to/acquisition.csv"
+            /></label>
+            <div class="form-row">
+              <label
+                >Points per scan<input
+                  id="expected"
+                  type="number"
+                  min="2"
+                  placeholder="Or explicit boundary" /></label
+              ><label>Directory glob<input id="glob" value="*.csv" /></label>
+            </div>
+            <label
+              >Column mapping (zero-based indices or header names)<input
+                id="columns"
+                value='{"x":0,"y":1}'
+            /></label>
+            <div class="form-row">
+              <label
+                >Separator<select id="delimiter">
+                  <option value="auto">Auto</option>
+                  <option value=",">Comma</option>
+                  <option value="&#9;">Tab</option>
+                  <option value="whitespace">Whitespace</option>
+                </select></label
+              ><label class="checkbox"
+                ><input id="header-row" type="checkbox" /> Header row</label
+              >
+            </div>
+            <div class="form-row">
+              <label>x units<input id="x-unit" value="eV" /></label
+              ><label>y units<input id="y-unit" value="intensity" /></label>
+            </div>
+            <p class="hint" id="source-help">
+              The simulator needs no instrument. Real data remain in your source
+              files.
+            </p>
+            <button id="apply" class="primary">Apply setup &amp; start</button>
+            <div class="actions">
+              <button id="save">Save preset</button
+              ><button id="load">Load preset</button
+              ><input id="file" type="file" accept=".json" hidden />
+            </div>
+            <details>
+              <summary>Advanced configuration</summary>
+              <p class="hint">
+                Use JSON for done markers, background anchors, tail direction,
+                queue size, cadence, and export paths. Reapplying a model starts
+                a new revision.
+              </p>
+              <textarea id="advanced" rows="12" spellcheck="false"></textarea
+              ><button id="apply-json">Apply JSON configuration</button>
+            </details>
+            <p class="hint">Exports: <span id="export-path">—</span></p>
+          </section>
+        </aside>
+      </div>
+    </main>
+    <footer>
+      WavesFit · MIT licensed · Fits are estimates; inspect residuals and
+      identifiability before interpretation.
+    </footer>
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+outputs/
+.DS_Store
+/peer-go/
+/wavesfit-go-bin
+.ruff_cache/

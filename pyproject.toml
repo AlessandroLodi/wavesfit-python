@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wavesfit"
+version = "0.1.0"
+description = "Independent spectroscopy models and live file-stream fitting"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES"]
+authors = [{name = "Alessandro Lodi"}]
+dependencies = ["numpy>=1.26", "scipy>=1.16,<2"]
+
+[project.optional-dependencies]
+dashboard = []
+dev = ["pytest>=8", "build>=1.2", "jsonschema>=4", "ruff>=0.12"]
+
+[project.scripts]
+wavesfit = "wavesfit.cli:main"
+
+[project.urls]
+Repository = "https://github.com/AlessandroLodi/wavesfit-python"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wavesfit"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

@@ -1,0 +1,18 @@
+WavesFit is a new Python/Go implementation informed by a collection of 29 local Igor Pro
+procedure files. Redistribution and an MIT license were authorized by the supplying user.
+The original laboratory contributors are not identified reliably in the supplied files;
+the historical description "Luca procedures" is not treated as verified authorship.
+Original procedure filenames and byte hashes are recorded in shared/igor-inventory.json.
+Original proprietary application code and application binaries are not redistributed.
+
+Scientific references present in the supplied procedure comments:
+- Stöhr, NEXAFS Spectroscopy (asymmetric Gaussian and Gaussian step procedures).
+- D. A. Shirley, Physical Review B 5 (1972), 4709.
+- S. Tougaard, Surface Science 216 (1989), 343.
+- V. Lucarini, J. J. Saarinen, K.-E. Peiponen, E. M. Vartiainen,
+  Kramers-Kronig Relations in Optical Materials Research, Springer, 2005.
+  The related Kramers-Kronig procedure is inventoried but deferred beyond v0.1.0.
+
+Python depends on NumPy and SciPy, which carry their own BSD and bundled dependency notices.
+Go depends on Gonum and gospecfunc under BSD licenses. See THIRD_PARTY_NOTICES.
+The offline dashboard is original code and has no external JavaScript dependencies.

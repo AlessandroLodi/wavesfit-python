@@ -1,0 +1,33 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema",
+ "title":"WavesFit configuration 1.0","type":"object","required":["schema_version"],"additionalProperties":false,
+ "properties":{
+  "schema_version":{"const":"1.0"},
+  "model":{"type":"object","required":["components"],"additionalProperties":false,"properties":{
+   "offset":{"$ref":"#/$defs/parameter"},
+   "components":{"type":"array","maxItems":100,"items":{"type":"object","required":["kind","prefix"],"additionalProperties":false,"properties":{
+    "kind":{"enum":["voigt","voigt_doublet","ds","ds_doublet","asymmetric_gaussian","gaussian_step"]},"prefix":{"type":"string","pattern":"^[^.]+$"},
+    "tail":{"enum":["higher","lower"]},"parameters":{"type":"object","additionalProperties":{"$ref":"#/$defs/parameter"}}
+   }}}
+  }},
+  "background":{"type":"object","additionalProperties":false,"properties":{
+   "kind":{"enum":["none","linear","exponential","shirley","tougaard"]},"left":{"type":["number","null"]},"right":{"type":["number","null"]},
+   "curvature":{"type":"number","minimum":-100,"maximum":100},"kernel_c":{"type":"number","exclusiveMinimum":0},"max_iterations":{"type":"integer","minimum":1}
+  }},
+  "fit":{"type":"object","additionalProperties":false,"properties":{
+   "interval":{"type":["array","null"],"minItems":2,"maxItems":2,"items":{"type":"number"}},"max_evaluations":{"type":"integer","minimum":1},"budget_seconds":{"type":"number","exclusiveMinimum":0}
+  }},
+  "source":{"type":"object","required":["mode"],"additionalProperties":false,"properties":{
+   "mode":{"enum":["demo","tail","directory"]},"path":{"type":"string"},"glob":{"type":"string"},"delimiter":{"type":"string"},"header":{"type":"boolean"},
+   "columns":{"type":"object","required":["x","y"],"additionalProperties":false,"properties":{"x":{"$ref":"#/$defs/column"},"y":{"$ref":"#/$defs/column"},"sigma":{"$ref":"#/$defs/column"},"scan_id":{"$ref":"#/$defs/column"}}},
+   "expected_points":{"type":"integer","minimum":2},"done_suffix":{"type":"string"},"max_points":{"type":"integer","minimum":2},
+   "points":{"type":"integer","minimum":16,"maximum":100000},"pattern":{"enum":["both","growing","complete"]}
+  }},
+  "cadence_seconds":{"type":"number","minimum":0.01},"queue_size":{"type":"integer","minimum":1,"maximum":256},"output_dir":{"type":"string"},
+  "units":{"type":"object","required":["x","y"],"additionalProperties":false,"properties":{"x":{"type":"string"},"y":{"type":"string"}}}
+ },
+ "$defs":{
+  "parameter":{"oneOf":[{"type":"number"},{"type":"object","required":["value"],"additionalProperties":false,"properties":{"value":{"type":"number"},"min":{"type":["number","null"]},"max":{"type":["number","null"]},"fixed":{"type":"boolean"}}}]},
+  "column":{"oneOf":[{"type":"integer","minimum":0},{"type":"string","minLength":1}]}
+ }
+}

@@ -1,0 +1,371 @@
+{
+  "source_format": "Igor Pro .ipf",
+  "original_author": "not reliably identified in supplied headers",
+  "files": [
+    {
+      "file": "APE dichr every point load.ipf",
+      "sha256": "32875da2fd6d53d6e289868b6123afd84f5596e8c8e565e18666ec572455fd26",
+      "lines": 137,
+      "routines": [
+        "Function LoadAPEdichDataSingle(pathName,fileName)",
+        "Function LoadAPEdichData(pathName,fileName,en,IsIm_MP,IsIm_MM)",
+        "Function dicroismo()",
+        "Function/S GGetLeafName1(pathStr)"
+      ],
+      "release": "follow-up",
+      "replacement": "APE dichroism reader and normalization"
+    },
+    {
+      "file": "APE hyst load.ipf",
+      "sha256": "0e390588ed1ca8b394d98fde9a530557b6c09c729546f1a04cd518faa939371a",
+      "lines": 196,
+      "routines": [
+        "Function LoadAPEhystDataSingle(pathName,fileName)",
+        "Function LoadAPEhystData(eli,pathName,fileName)",
+        "Function hysteresis(eli)",
+        "Function/S GGetLeafName2(pathStr)"
+      ],
+      "release": "follow-up",
+      "replacement": "APE hysteresis reader and normalization"
+    },
+    {
+      "file": "AsymGauss.ipf",
+      "sha256": "416820e7a38c77e7f3ce245c456a297f6f7aac9c0250fec8b694a76e59308143",
+      "lines": 23,
+      "routines": [
+        "Function AsymGauss(w,x)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "asymmetric_gaussian"
+    },
+    {
+      "file": "BL7A hyst load.ipf",
+      "sha256": "fff436f81efb3b81bfae19df1811177e85f875aeea6e09ce6f880eb2cb795c02",
+      "lines": 233,
+      "routines": [
+        "Function LoadBL7hystDataSingle(fileName_pre,filename_edg)",
+        "Function LoadBL7hystData(fileName_pre,fileName_edg,pathToFolder_pre,pathToFolder_edg)",
+        "Function hyster()",
+        "Function/S GGetLeafName3(pathStr)"
+      ],
+      "release": "follow-up",
+      "replacement": "BL7A paired pre-edge/edge reader"
+    },
+    {
+      "file": "BearDataNew.ipf",
+      "sha256": "b8d6cdc2e17aff5c36e904d93721096df8892fdaab6480b8e8758cb72e1c4385",
+      "lines": 676,
+      "routines": [
+        "Function LoadBearDataSingle(FileName)",
+        "Function LoadMultiScan(ComplFirstFileName)",
+        "Function LoadBearData(ComplFileName)",
+        "Function ChooseWaveNames()",
+        "Function LoadDarkData(DarkFileName)",
+        "Function CheckWaveValidity(Onda)",
+        "Function Scaling2(NameWaveX,NameWaveY)",
+        "Function Scaling(gScaling,Name0,Name1,Name2,Name3,Name4,Name5,Name6)",
+        "Function RingCurrent(pathName,fileName)",
+        "Function LoadMacroPhEnTime()"
+      ],
+      "release": "follow-up",
+      "replacement": "BEAR multi-scan/dark/current readers and scaling"
+    },
+    {
+      "file": "BearDataPhotonScan.ipf",
+      "sha256": "111fec47f6ad000279c20e12ab83707e9615a8ce00a6c578e5c2d1148878ec86",
+      "lines": 69,
+      "routines": [
+        "Function LoadBearDataPhotonScan(ComplFileName)"
+      ],
+      "release": "follow-up",
+      "replacement": "BEAR photon scan reader"
+    },
+    {
+      "file": "DoniachSunjic.ipf",
+      "sha256": "6a9f06e1c537b551743a279a4266af4792ea83cd6f048f8f21ea8e201f5d9efe",
+      "lines": 42,
+      "routines": [
+        "Function DoniachSunjic(w,x) : FitFunc"
+      ],
+      "release": "v0.1.0",
+      "replacement": "ds"
+    },
+    {
+      "file": "DoniachSunjicDoublet.ipf",
+      "sha256": "7549a9f2c6b9f8a933185dc889e5b919c92e7e5a0bc89df9a18c1050db0ac008",
+      "lines": 57,
+      "routines": [
+        "Function DoniachSunjicDoublet(w,x) : FitFunc"
+      ],
+      "release": "v0.1.0",
+      "replacement": "ds_doublet"
+    },
+    {
+      "file": "NEXAFS_fits_LP_tab.ipf",
+      "sha256": "f306ee6bf8c50268b528082f65a3528fac9cf3828b899323e479bb07371b0ebc",
+      "lines": 322,
+      "routines": [
+        "Macro CreateFitPanel_NEXAFS()\t\t\t\t//macro che crea definisce il folder corrente quello di lavoro e ne crea un altro di supporto",
+        "Proc MakeFitPanelSetup_NEXAFS()",
+        "Proc ParEnter_NEXAFS(numpeaks)",
+        "Function  parameters_NEXAFS()",
+        "Function hold_NEXAFS()",
+        "Function constraints_NEXAFS()",
+        "Function Limits_NEXAFS()",
+        "Proc makegraph_NEXAFS(graph)",
+        "Proc makefit_NEXAFS(fit)",
+        "Function selectXYwaves_NEXAFS()",
+        "Function NEXAFS(w,x)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "nexafs model and dashboard"
+    },
+    {
+      "file": "Photoemission_DoniachSunjic_singlets_LP.ipf",
+      "sha256": "72d8dca3a10a5e1461aec7092fa9f19ed6aaf81b0135fe3fba44cbda5a0e0efd",
+      "lines": 268,
+      "routines": [
+        "Macro CreateFitPanel_DS_singlet()",
+        "Proc MakeFitPanelSetup_DS_singlet()",
+        "Proc ParEnter_DS_singlet(numpeaks)",
+        "Function  parameters_DS_singlets()",
+        "Function hold_DS_singlets()",
+        "Function constraints_DS_singlets()",
+        "Function Limits_DS_singlets()",
+        "Proc makegraph_DS_singlets(graph)",
+        "Proc makefit_DS_singlets(fit)",
+        "Function selectXYwaves_DS_singlets()"
+      ],
+      "release": "v0.1.0",
+      "replacement": "DS model, named parameters, bounds, dashboard"
+    },
+    {
+      "file": "Photoemission_DonjachSunjic_doublets_LP.ipf",
+      "sha256": "074c530e9eaebf971da32cbcc2970e4455008f719d707d613f30e81828a11869",
+      "lines": 288,
+      "routines": [
+        "Macro CreateFitPanel_DS_doublets()",
+        "Proc MakeFitPanelSetup_DS_doublets()",
+        "Proc ParEnter_DS_doublets(numpeaks)",
+        "Function  parameters_DS_doublets()",
+        "Function hold_DS_doublets()",
+        "Function constraints_DS_doublets()",
+        "Function Limits_DS_doublets()",
+        "Proc makegraph_DS_doublets(graph)",
+        "Proc makefit_DS_doublets(fit)",
+        "Function selectXYwaves_DS_doublets()"
+      ],
+      "release": "v0.1.0",
+      "replacement": "DS doublets, named parameters, bounds, dashboard"
+    },
+    {
+      "file": "Photoemission_doublets_LP.ipf",
+      "sha256": "e06ca83a9d25cdd23485c449edba8c17dddb6abd076254a6664f35d22abc825d",
+      "lines": 279,
+      "routines": [
+        "Macro CreateFitPanel_doublets()",
+        "Proc MakeFitPanelSetup_doublets()",
+        "Proc ParEnter_doublets(numpeaks)",
+        "Function  parameters_doublets()",
+        "Function hold_doublets()",
+        "Function constraints_doublets()",
+        "Function Limits_doublets()",
+        "Proc makegraph_doublets(graph)",
+        "Proc makefit_doublets(fit)",
+        "Function selectXYwaves_doublets()"
+      ],
+      "release": "v0.1.0",
+      "replacement": "Voigt doublets, named parameters, bounds, dashboard"
+    },
+    {
+      "file": "Photoemission_singlets_LP.ipf",
+      "sha256": "b98de206b3c46aecfc7eef0f474fd10b468cbc2ed8a18663b42297d047112a5a",
+      "lines": 264,
+      "routines": [
+        "Macro CreateFitPanel_singlet()",
+        "Proc MakeFitPanelSetup()",
+        "Proc ParEnter(numpeaks)",
+        "Function  parameters_singlets()",
+        "Function hold_singlets()",
+        "Function constraints_singlets()",
+        "Function Limits_singlets()",
+        "Proc makegraph_singlets(graph)",
+        "Proc makefit_singlets(fit)",
+        "Function selectXYwaves_singlets()"
+      ],
+      "release": "v0.1.0",
+      "replacement": "Voigt model, named parameters, bounds, dashboard"
+    },
+    {
+      "file": "SaveAllActiveGraphs.ipf",
+      "sha256": "73787ac82756c8bab4efc50a9570374adcc3d8af0e55cac3a6d96c68527782bd",
+      "lines": 53,
+      "routines": [
+        "Function SaveAllActiveGraphs()"
+      ],
+      "release": "follow-up",
+      "replacement": "graph export without hardcoded local paths"
+    },
+    {
+      "file": "StepGauss.ipf",
+      "sha256": "042478fdd656f84463e34ab28edbe833892d2d3278dac65c461d1ea93fabc6f7",
+      "lines": 29,
+      "routines": [
+        "Function StepGauss(w,x)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "gaussian_step"
+    },
+    {
+      "file": "VoigtFit_doublets.ipf",
+      "sha256": "60bfcf6fe611822039b36ddc57310c28deed27a11d8041e6c511630cf0444253",
+      "lines": 57,
+      "routines": [
+        "Function VoigtFitdoublet(w,x)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "voigt_doublet"
+    },
+    {
+      "file": "VoigtFit_singlets.ipf",
+      "sha256": "fd96c6c7296c441336a4b2591017fc7e473cc913b70448007cb7a20c1016aa67",
+      "lines": 54,
+      "routines": [
+        "Function VoigtFitsinglet(w,x)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "voigt"
+    },
+    {
+      "file": "XPS_G6_Data.ipf",
+      "sha256": "64c4182dc101d97bbfe4ecbc67760a39c7728df6bf3723b661564275450d7b11",
+      "lines": 215,
+      "routines": [
+        "Function LoadXPSG6DataSingle(pathName,fileName)",
+        "Function LoadXPSG6DataInFolder()",
+        "Function/S GGetLeafName(pathStr)",
+        "Function LoadXPSG6Data(pathName,fileName,Name0,Name1)"
+      ],
+      "release": "follow-up",
+      "replacement": "XPS G6 reader"
+    },
+    {
+      "file": "XPS_G6_Data_binding energy.ipf",
+      "sha256": "f9ac2b82c436e4606a6250d48846287d65f97e32cda6ab99747a746d8670889c",
+      "lines": 248,
+      "routines": [
+        "Function LoadXPSG6DataSingle_be(pathName,fileName)",
+        "Function LoadXPSG6DataInFolder_be()",
+        "Function/S GGetLeafName_be(pathStr)",
+        "Function LoadXPSG6Data_be(pathName,fileName,Name0,Name1,Name2,vpol,wf)"
+      ],
+      "release": "follow-up",
+      "replacement": "XPS G6 binding-energy conversion"
+    },
+    {
+      "file": "betterhilbert.ipf",
+      "sha256": "c085a441a118c498a36a3d9f6148d0ac7c3e5f15ca513f8b34318a1f92d39040",
+      "lines": 81,
+      "routines": [
+        "Function odd_construct(xw,yw) // Given two waves xw and yw, representing the x and y values of a function",
+        "Function even_construct(xw,yw)",
+        "Function betterhilbert(xw, yw, dx)\t// It calculates the Hilbert transform of the function y(x), this function being defined by",
+        "Function quickhilbert(xw,yw,dx,par,m,name)"
+      ],
+      "release": "follow-up",
+      "replacement": "odd/even extension and Hilbert transforms"
+    },
+    {
+      "file": "doublets from fit.ipf",
+      "sha256": "ed908f48d0a2b3902f4bdf1ff6d86a3384278a34f613dc447e49c785dac2399a",
+      "lines": 27,
+      "routines": [
+        "macro doublets_from_fit(voigtd,en)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "evaluate_components and dashboard doublet display"
+    },
+    {
+      "file": "exponential_background.ipf",
+      "sha256": "0af2ddf763152505caeb8348191c91d294f2584f11b6bbf82f80bdc4e8303d9e",
+      "lines": 63,
+      "routines": [
+        "macro exponential_background(sp,fo)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "explicit-curvature exponential background"
+    },
+    {
+      "file": "kkimg2real.ipf",
+      "sha256": "4019e189bf830206459d01784df26c478e91cceef28dac861cdbb8cc9a1af991",
+      "lines": 104,
+      "routines": [
+        "macro KKimg2real(omega,imgkk,rekk,alpha)",
+        "function KKtransformimg2real(omega,imgkk,rekk,alpha)"
+      ],
+      "release": "follow-up",
+      "replacement": "Kramers\u2013Kronig transform with explicit alpha"
+    },
+    {
+      "file": "linear_background_samehorizscale.ipf",
+      "sha256": "0c09c794f36a3e32b03ae1aa85fe1af7397ffbac68d613d68e0bc6875dc65aa4",
+      "lines": 44,
+      "routines": [
+        "macro linear_background(sp,fo,ko)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "linear background"
+    },
+    {
+      "file": "shirley_background_samehorizscale.ipf",
+      "sha256": "0748e2dad2dadd2c1dee0188264d1244892bbef6fdfe3ab29e605bd93d0db5dd",
+      "lines": 39,
+      "routines": [
+        "macro shirley_background(sp,fo,ko)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "iterative Shirley background"
+    },
+    {
+      "file": "smooth part of spectrum.ipf",
+      "sha256": "b5dbba86d137c7364645ac1ccd87ea41e42a3363e7b56aabbe812d0194d8ec86",
+      "lines": 35,
+      "routines": [
+        "macro spectrum_smooth_part(sp,fo,sf)"
+      ],
+      "release": "follow-up",
+      "replacement": "regional Hill-curve replacement and smoothing"
+    },
+    {
+      "file": "subtract satellites 2.ipf",
+      "sha256": "473849320422bd667f7168401eea6711a688f0f8c474ebd1d350bdfc5ddfdc33",
+      "lines": 29,
+      "routines": [
+        "macro subtract_satellite_2(spectr,energy,satellite)"
+      ],
+      "release": "follow-up",
+      "replacement": "recursive satellite correction"
+    },
+    {
+      "file": "subtract satellites.ipf",
+      "sha256": "e301ab944012a87748190e6a7e0a330aebb993517015ff71071ea812042adde6",
+      "lines": 27,
+      "routines": [
+        "macro subtract_satellite(spectr,energy,satellite)"
+      ],
+      "release": "follow-up",
+      "replacement": "direct satellite correction"
+    },
+    {
+      "file": "tougaard_background_samehorizscale.ipf",
+      "sha256": "66386833c3a68c4f9e5c85b05961102ebcc7757bee277247550c34d3c8c6989b",
+      "lines": 57,
+      "routines": [
+        "macro Tougaard_background(sp,fo)",
+        "Function tougaard_BK (tmp1,e1,e2,tmp2,tmp3)"
+      ],
+      "release": "v0.1.0",
+      "replacement": "physical-axis Tougaard background"
+    }
+  ]
+}
