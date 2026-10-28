@@ -1,4 +1,5 @@
 import json
+from itertools import count
 from pathlib import Path
 
 import numpy as np
@@ -157,7 +158,7 @@ def test_identifiability_is_independent_of_parameter_units():
     )
 
 
-def test_diagnostics_and_invalid_data():
+def test_diagnostics_and_invalid_data(monkeypatch):
     m = default_model()
     x = np.linspace(-3, 3, 100)
     y = m.evaluate(x)
@@ -173,7 +174,10 @@ def test_diagnostics_and_invalid_data():
     singular = fit(x, y, duplicate)
     assert singular.status == "singular"
     assert not singular.success and all(error is None for error in singular.stderr.values())
-    assert fit(x, y, m, budget_seconds=1e-12).status == "timeout"
+    with monkeypatch.context() as clock:
+        ticks = count()
+        clock.setattr("wavesfit.fitting.time.perf_counter", lambda: next(ticks) * 0.01)
+        assert fit(x, y, m, budget_seconds=0.001).status == "timeout"
     assert fit(x, y * 2, m, max_evaluations=1).status == "max_evaluations"
     for xx, yy, kwargs in [
         ([1, 1], [2, 3], {}),

@@ -59,7 +59,7 @@ def fit(
     initial=None,
     cancel=None,
 ):
-    start = time.monotonic()
+    start = time.perf_counter()
     x, y = np.asarray(x, dtype=float), np.asarray(y, dtype=float)
     if x.ndim != 1 or y.ndim != 1 or len(x) != len(y) or len(x) < 2:
         raise ValueError(
@@ -115,7 +115,7 @@ def fit(
 
     def residual(v):
         nonlocal count, last
-        if time.monotonic() - start > budget_seconds or cancel is not None and cancel():
+        if time.perf_counter() - start > budget_seconds or cancel is not None and cancel():
             raise Deadline()
         count += 1
         vals = dict(values, **dict(zip(names, v)))
@@ -208,5 +208,5 @@ def fit(
         2 * cost / dof if sig is not None and dof > 0 else None,
         rank,
         count,
-        time.monotonic() - start,
+        time.perf_counter() - start,
     )
