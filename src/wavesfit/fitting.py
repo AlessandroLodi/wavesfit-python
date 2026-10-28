@@ -9,6 +9,17 @@ from scipy.optimize import least_squares
 from .backgrounds import background
 from .models import Model
 
+IDENTIFIABILITY_RCOND = 1e-7
+
+
+def _identifiability(jac):
+    """Normalize columns so rank and covariance do not depend on parameter units."""
+    scales = np.linalg.norm(jac, axis=0)
+    scales = np.where(scales > 0, scales, 1.0)
+    _, singular, vt = np.linalg.svd(jac / scales, full_matrices=False)
+    rank = int(np.count_nonzero(singular > singular[0] * IDENTIFIABILITY_RCOND))
+    return rank, scales, singular, vt
+
 
 @dataclass
 class FitResult:
@@ -119,6 +130,7 @@ def fit(
 
     rank = 0
     jac = None
+    decomposition = None
     status = "converged"
     message = "All parameters fixed"
     success = True
@@ -140,7 +152,7 @@ def fit(
             )
             values.update(zip(names, opt.x))
             jac = opt.jac
-            rank = int(np.linalg.matrix_rank(jac))
+            rank, *decomposition = _identifiability(jac)
             success = bool(opt.success)
             status = "converged" if success else "max_evaluations"
             message = opt.message
@@ -166,8 +178,8 @@ def fit(
     dof = len(x) - len(names)
     errors = {k: None for k in values}
     if success and jac is not None and rank == len(names) and dof > 0:
-        _, s, vt = np.linalg.svd(jac, full_matrices=False)
-        covariance = (vt.T / s**2) @ vt
+        scales, s, vt = decomposition
+        covariance = ((vt.T / s**2) @ vt) / np.outer(scales, scales)
         if sig is None:
             covariance *= sse / dof
         errors.update(zip(names, np.sqrt(np.maximum(np.diag(covariance), 0)).tolist()))

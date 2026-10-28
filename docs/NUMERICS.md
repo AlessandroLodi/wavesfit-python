@@ -64,7 +64,11 @@ Voigt/doublet Jacobians and central differences for other profiles; Python uses 
 substitution is used. Both use the Faddeeva representation for mixed Voigt profiles.
 
 Only full-rank, converged fits with positive degrees of freedom receive covariance-derived
-standard errors. With supplied sigma the uncertainties are treated as absolute; otherwise
+standard errors. Rank uses the column-normalized Jacobian and a relative singular-value
+cutoff of 1e-7, avoiding dependence on parameter units and finite-difference noise at machine
+precision. Fits with indistinguishable parameter effects are marked singular even if the
+optimizer converges. Covariance is computed in the same scaled coordinates and converted
+back to parameter units. With supplied sigma the uncertainties are treated as absolute; otherwise
 covariance is scaled by SSE/dof. Fixed and boundary parameters have null standard errors.
 Uncertainty is conditional on the chosen, fixed background; it does not include background
 estimation or model-selection uncertainty. Strong correlation, partial coverage, and local

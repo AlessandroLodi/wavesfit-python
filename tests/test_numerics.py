@@ -148,6 +148,15 @@ def test_overlapping_peaks_recovery():
     assert r.parameters["p1.center"] == pytest.approx(-0.7, abs=1e-4)
 
 
+def test_identifiability_is_independent_of_parameter_units():
+    from wavesfit.fitting import _identifiability
+
+    assert _identifiability(np.array([[1.0, 0.0], [0.0, 1e-20], [1.0, 1e-20]]))[0] == 2
+    assert (
+        _identifiability(np.array([[1.0, 1e-20], [2.0, 2e-20], [3.0, 3e-20]]))[0] == 1
+    )
+
+
 def test_diagnostics_and_invalid_data():
     m = default_model()
     x = np.linspace(-3, 3, 100)
