@@ -162,7 +162,17 @@ def test_diagnostics_and_invalid_data():
     x = np.linspace(-3, 3, 100)
     y = m.evaluate(x)
     assert fit(x[:3], y[:3], m).status == "insufficient_data"
-    assert fit(x, y, default_model(count=2)).status == "singular"
+    # Identical fixed shapes leave two free areas with exactly the same effect.
+    # Freely moving duplicate peaks can separate during optimization, so their
+    # eventual rank depends on the solution rather than their initial positions.
+    duplicate = default_model(count=2)
+    for component in duplicate.components:
+        for name, parameter in component.parameters.items():
+            if name != "area":
+                parameter.fixed = True
+    singular = fit(x, y, duplicate)
+    assert singular.status == "singular"
+    assert not singular.success and all(error is None for error in singular.stderr.values())
     assert fit(x, y, m, budget_seconds=1e-12).status == "timeout"
     assert fit(x, y * 2, m, max_evaluations=1).status == "max_evaluations"
     for xx, yy, kwargs in [
